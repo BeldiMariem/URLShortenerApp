@@ -3,6 +3,8 @@
 
 This is a simple **URL shortener API** built with **Node.js** (v22.13.1), **Express** (v4.21.2), and **MongoDB**. It allows you to create shortened URLs, redirect to the original URLs using the shortened ID, and delete shortened URLs.
 
+This project also includes **Swagger UI** for API documentation.
+
 ## Table of Contents
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
@@ -97,9 +99,11 @@ Example: GET /abc123 will redirect to the original URL.
 
 **500 Internal Server Error: Unexpected server error.**
 
-## Access API Documentation 
+## Access API Documentation
+This project uses Swagger to generate interactive API documentation. You can access it at:
 
-http://localhost:5000/api-docs
+[Swagger UI](http://localhost:5000/api-docs/)
+This interface allows you to explore the available endpoints, send test requests, and see the expected responses.
 
 
 ## License
