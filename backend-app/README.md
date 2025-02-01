@@ -106,7 +106,3 @@ This project uses Swagger to generate interactive API documentation. You can acc
 This interface allows you to explore the available endpoints, send test requests, and see the expected responses.
 
 
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-This README.md file provides clear instructions for setting up and using your URL shortener API. Make sure to update the repository link and other details as needed.
