@@ -1,5 +1,7 @@
 const shortid = require('shortid');
 const Url = require('../models/Url');
+const { InvalidUrlError, UrlNotFoundError } = require('../errors'); 
+
 const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
 
 function isValidUrl(url) {
@@ -23,7 +25,9 @@ exports.createShortenedUrl = async (longUrl) => {
     return { shortUrl: `${baseUrl}/${shortId}` };
 };
 
+
 exports.redirectUrl = async (shortId) => {
+    console.log("Looking for shortId:", shortId);  
     const url = await Url.findOne({ shortId });
     if (!url) {
         throw new UrlNotFoundError('URL not found');
@@ -31,16 +35,10 @@ exports.redirectUrl = async (shortId) => {
 
     return url.longUrl;
 };
-class InvalidUrlError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "InvalidUrlError";
-    }
-}
 
-class UrlNotFoundError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "UrlNotFoundError";
+exports.deleteUrl = async (shortId) => {
+    const url = await Url.findOneAndDelete({ shortId });
+    if (!url) {
+        throw new UrlNotFoundError('URL not found');
     }
-}
+};

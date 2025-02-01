@@ -1,22 +1,24 @@
-require('dotenv').config({ path: '.env.test' }); // Load test environment variables
+
 const mongoose = require('mongoose');
 const urlService = require('../src/services/urlService');
-const Url = require('../src/models/Url'); // Adjust the path as needed
+const Url = require('../src/models/Url'); 
+const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
 
+require('dotenv').config({ path: '.env.test' }); 
 beforeAll(async () => {
-    
     await mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-}, 10000); 
+}, 10000);
+
 afterAll(async () => {
     await mongoose.connection.close();
-}, 10000); 
+}, 10000);
 
 beforeEach(async () => {
     await Url.deleteMany({});
-}, 10000); 
+}, 10000);
 
 describe('urlService', () => {
     it('should shorten a valid URL', async () => {
@@ -67,18 +69,16 @@ describe('urlService', () => {
         const longUrl = 'https://example.com?query=test';
         const result = await urlService.createShortenedUrl(longUrl);
 
-        const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
         expect(result.shortUrl).toMatch(new RegExp(`${baseUrl}/[\\w-]+`));
 
         const url = await Url.findOne({ longUrl });
-        expect(url).toBeTruthy();
+        expect(url).toBeDefined();
     });
 
     it('should handle a very long URL', async () => {
-        const longUrl = 'https://example.com/' + 'a'.repeat(1000); 
+        const longUrl = 'https://example.com/' + 'a'.repeat(1000);
         const result = await urlService.createShortenedUrl(longUrl);
 
-        const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
         expect(result.shortUrl).toMatch(new RegExp(`${baseUrl}/[\\w-]+`));
 
         const url = await Url.findOne({ longUrl });
@@ -86,13 +86,14 @@ describe('urlService', () => {
     });
 
     it('should handle a URL with special characters', async () => {
-        const longUrl = 'https://example.com/路径/例'; 
+        const longUrl = 'https://example.com/路径/例';
         const result = await urlService.createShortenedUrl(longUrl);
 
-        const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
         expect(result.shortUrl).toMatch(new RegExp(`${baseUrl}/[\\w-]+`));
 
         const url = await Url.findOne({ longUrl });
         expect(url).toBeTruthy();
     });
+   
+  
 });
