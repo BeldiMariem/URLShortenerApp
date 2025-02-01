@@ -88,3 +88,14 @@
     font-weight: 600;
     display: block;
 }
+.errorMessage {
+    color: red; 
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold; 
+}
+.button:disabled {
+    background-color: #ccc; 
+    color: #777; 
+    cursor: not-allowed; 
+}
