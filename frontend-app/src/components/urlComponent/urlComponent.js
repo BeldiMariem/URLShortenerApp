@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { shortenUrl } from '../../api/urlService'; 
-import './UrlComponent.css'; // Import the CSS file
+import './UrlComponent.css'; 
 
 function UrlComponent() {
     const [longUrl, setLongUrl] = useState('');
