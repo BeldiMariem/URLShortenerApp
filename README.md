@@ -8,6 +8,14 @@ A simple and efficient **URL Shortener** application built with **Express.js** f
 - ✅ Fully tested with **Jest**.
 - 🛠️ Follows **clean code principles** for readability and maintainability.
 
+
+
+## Deployment  
+
+The application is deployed on: [URL Shortener](https://url-shortener-app-jet.vercel.app) 
+
+
+
 ## Tech Stack
 
 ### Backend 
