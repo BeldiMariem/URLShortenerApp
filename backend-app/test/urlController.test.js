@@ -11,16 +11,15 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    console.log('Connected to database:', mongoose.connection.name); // Log the database name
-}, 10000); 
+}, 10000);
 
 afterAll(async () => {
     await closeConnections();
-}, 10000); 
+}, 10000);
 
 beforeEach(async () => {
     await Url.deleteMany({});
-}, 10000); 
+}, 10000);
 
 describe('urlController', () => {
     it('should shorten a valid URL', async () => {
@@ -50,7 +49,7 @@ describe('urlController', () => {
         expect(response.body).toHaveProperty('error', 'Invalid URL');
 
         const url = await Url.findOne({ longUrl });
-        expect(url).toBeNull(); 
+        expect(url).toBeNull();
     });
 
     it('should redirect to the original URL for a valid shortId', async () => {
@@ -74,5 +73,21 @@ describe('urlController', () => {
             .expect(404);
 
         expect(response.body).toHaveProperty('error', 'URL not found');
+    });
+
+    it('should delete a shortened URL', async () => {
+        const longUrl = 'https://example.com';
+        const shortId = 'abc123';
+
+        await Url.create({ longUrl, shortId });
+
+        const response = await request(app)
+            .delete(`/delete/${shortId}`)
+            .expect(200);
+
+        expect(response.body).toHaveProperty('message', 'URL deleted successfully');
+
+        const url = await Url.findOne({ shortId });
+        expect(url).toBeNull();
     });
 });

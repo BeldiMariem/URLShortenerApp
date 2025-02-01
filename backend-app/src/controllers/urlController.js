@@ -1,7 +1,4 @@
-const shortid = require('shortid');
-const Url = require('../models/Url');
-
-const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
+const urlService = require('../services/urlService'); 
 
 /**
  * @swagger
@@ -37,21 +34,14 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:5000';
  *         description: Internal server error
  */
 exports.createShortenedUrl = async (req, res) => {
-    const { longUrl } = req.body;
-
-    if (!longUrl || !isValidUrl(longUrl)) {
-        return res.status(400).json({ error: 'Invalid URL' });
-    }
-
     try {
-        const shortId = shortid.generate();
-        const url = new Url({ longUrl, shortId });
-
-        await url.save();
-        res.json({ shortUrl: `${baseUrl}/${shortId}` });
+        const { longUrl } = req.body;
+        
+        const result = await urlService.createShortenedUrl(longUrl); // Call service method
+        res.json(result);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(err.name === 'InvalidUrlError' ? 400 : 500).json({ error: err.message });
+
     }
 };
 
@@ -78,30 +68,14 @@ exports.createShortenedUrl = async (req, res) => {
  *         description: Internal server error
  */
 exports.redirectUrl = async (req, res) => {
-    const { shortId } = req.params;
-
     try {
-        const url = await Url.findOne({ shortId });
-
-        if (!url) {
-            return res.status(404).json({ error: 'URL not found' });
-        }
-
-        res.redirect(url.longUrl);
+        const { shortId } = req.params;
+        const longUrl = await urlService.redirectUrl(shortId); // Call service method
+        res.redirect(longUrl);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(err.name === 'UrlNotFoundError' ? 404 : 500).json({ error: err.message });
     }
 };
-
-function isValidUrl(url) {
-    try {
-        new URL(url);
-        return true;
-    } catch (err) {
-        return false;
-    }
-}
 
 /**
  * @swagger
@@ -126,13 +100,11 @@ function isValidUrl(url) {
  *         description: Internal server error
  */
 exports.deleteUrl = async (req, res) => {
-    const { shortId } = req.params;
-
-    const url = await Url.findOneAndDelete({ shortId });
-
-    if (!url) {
-        return res.status(404).json({ error: 'URL not found' });
+    try {
+        const { shortId } = req.params;
+        await urlService.deleteUrl(shortId); 
+        res.json({ message: 'URL deleted successfully' });
+    } catch (err) {
+        res.status(err.name === 'UrlNotFoundError' ? 404 : 500).json({ error: err.message });
     }
-
-    res.json({ message: 'URL deleted successfully' });
 };
