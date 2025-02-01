@@ -22,10 +22,11 @@ You can visit the application via this link:
 - **Node.js** & **Express.js** 
 - **MongoDB** 
 - **Jest**
+- **Swagger UI**
 ### Frontend 
 - **React.js** 
-- **Axios** 
-- **React Router** 
+- **Axios**
+- **Jest**
 
 ## My Approach to Clean Code:
 
