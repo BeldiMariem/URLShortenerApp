@@ -62,5 +62,6 @@ In the project directory, you can run:
 
 ## Environment 
 The following environment variable is required:
+
 API_URL: The base URL of the backend API (e.g., http://localhost:5000).
 
