@@ -1,19 +1,19 @@
 # URL Shortener
 
 A simple and efficient **URL Shortener** application built with **Express.js** for the backend and **React.js** for the frontend. 
+
+
+## Visit the App  
+
+You can visit the application via this link:  
+🔹 **[URL Shortener App](https://url-shortener-app-jet.vercel.app)**  
+
 ## Features
 
 - 🔗 Shorten long URLs into short, user-friendly links.
 - 🔄 Redirect short URLs to their original destinations.
 - ✅ Fully tested with **Jest**.
 - 🛠️ Follows **clean code principles** for readability and maintainability.
-
-
-
-## Deployment  
-
-The application is deployed on: [URL Shortener](https://url-shortener-app-jet.vercel.app) 
-
 
 
 ## Tech Stack
@@ -40,9 +40,6 @@ git clone https://github.com/BeldiMariem/URLShortenerApp.git
 ```
 
 
-## License
-
-This project is licensed under the **MIT License**.
 
 ---
 
